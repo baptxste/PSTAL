@@ -9,72 +9,60 @@ import pickle
 import numpy as np
 import itertools
 
-with open('matriceE.bin','rb')as file : 
+
+path = os.path.dirname(__file__)
+sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
+
+# Chargement des matrices
+with open('matriceE.bin', 'rb') as file:
     E = pickle.load(file)
-with open('matriceT.bin','rb')as file : 
+with open('matriceT.bin', 'rb') as file:
     T = pickle.load(file)
-with open('matriceP.bin','rb')as file : 
+with open('matriceP.bin', 'rb') as file:
     P = pickle.load(file)
-# print(E)
-# liste des étiquettes uniques
-t = list(set(itertools.chain(*[key.split(',') for key in T.keys()]))) # * permet d'éclater une liste
-def viterbi(seq:list, P:dict=P, E:dict=E, T:dict=T,t:list=t):
-    """
-    seq : liste des mots de la phrase
-    """
+
+# Liste des étiquettes
+t = list(set(itertools.chain(*[key.split(',') for key in T.keys() if ',' in key])))
+
+def viterbi(seq, P, E, T, t):
     n = len(seq)
-    # print(f" n = {n}")
     N = len(t)
-    # print(f" N = {N}")
-    delta = np.full((N,n),fill_value=Util.PSEUDO_INF)
-    phi = np.full((N,n),fill_value=0.0)
+    delta = np.full((N, n), fill_value=Util.PSEUDO_INF)
+    phi = np.zeros((N, n), dtype=int)
+
     for j in range(N):
-        try : # gestion des oov à faire
-            delta[j,1] = P[t[j]] + E[str(t[j]+','+str(seq[0]))]
-        except : pass 
-    for j in range(N):
-        for k in range(2,n):
-            try : 
-                temp = [delta[i, k-1]+T[str(t[i]+','+t[j])] for i in range(N)]
-                mini = min(temp)
-                delta[j,k] = mini + E[str(t[j]+','+str(seq[k]))]
-                phi[j,k] = temp.index(mini)
-            except : pass
+        delta[j, 0] = P.get(t[j], Util.PSEUDO_INF) + E.get(f"{t[j]},{seq[0]}", E['<<<OOV>>>'].get(t[j], Util.PSEUDO_INF))
 
-    # on prédit les étiquettes
-    pred_index_inv = []
-    pred_inv = []
-    # print( delta.shape)
+    for k in range(1, n):
+        for j in range(N):
+            temp = []
+            for i in range(N):
+                trans_prob = T.get(f"{t[i]},{t[j]}", T['<<<OOV>>>'].get(t[i], Util.PSEUDO_INF))
+                temp.append(delta[i, k - 1] + trans_prob)
+            delta[j, k] = min(temp) + E.get(f"{t[j]},{seq[k]}", E['<<<OOV>>>'].get(t[j], Util.PSEUDO_INF))
+            phi[j, k] = np.argmin(temp)
 
-    l = [delta[i,n-1] for i in range(N)]
-    pred_index_inv.append(l.index(min(l)))
-    pred_inv.append(delta[l.index(min(l)),n-1])
-
-    k = n-2 # en réalité c'es n-1 mais les indinces commencent a zero
-    while k >= 0 :
-        print(pred_index_inv[-1])
-        pred_inv.append(phi[pred_index_inv[-1],k+1])
-        pred_index_inv.append(t.index(pred_inv[-1]))
-    
-    return [t[i] for i in pred_index_inv[:: -1]]
+    pred_index = [np.argmin(delta[:, n - 1])]
+    for k in range(n - 2, -1, -1):
+        pred_index.insert(0, phi[pred_index[0], k + 1])
+    return [t[i] for i in pred_index]
 
 
+file_test = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.test')
+# with open(file_test, 'r') as file:
+#     reader = CoNLLUReader(file)
+#     for sent in reader.readConllu():
+#         seq = [str(token) for token in sent]
+#         pred = viterbi(seq, P, E, T, t)
+#         print(f"Phrase : {sent.metadata['text']}")
+#         print(f"Cibles : {CoNLLUReader.to_bio(sent)}")
+#         print(f"Prédictions : {pred}")
 
-file_test = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.small')
-
-with open(file_test,'r') as file :
-        reader = CoNLLUReader(file)
-        
+with open(file_test, 'r') as file:
+    reader = CoNLLUReader(file)
+    with open('prediction_file.conllu', 'w') as pred_file:
         for sent in reader.readConllu():
             seq = [str(token) for token in sent]
-            # print(sent.metadata['text'])
-            #print()
-            l = CoNLLUReader.to_bio(sent)
-            # print(l)
-            # for token in sent:
-            #     print(str(token))
-            # print(seq)
-            pred = viterbi(seq)
-            print(f" SENT  : {sent.metadata['text']}")
-            print(f" target : {l}")
-            print(f" Pred : {pred}")
+            pred = viterbi(seq, P, E, T, t)
+            sent_pred = CoNLLUReader.from_bio(pred)
+            pred_file.write(str(sent_pred) + '\n')
