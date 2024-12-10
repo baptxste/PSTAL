@@ -14,13 +14,13 @@ sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
 
 file_test = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.train')
 
-# Initialisation des dictionnaires
+
 dict_w_t = defaultdict(int)
 dict_t_t = defaultdict(int)
 dict_t = defaultdict(int)
 dict_s_t = defaultdict(int)
 S = 0
-alpha = 0.1  # Paramètre de lissage
+alpha = 0.1  
 
 with open(file_test, 'r') as file:
     reader = CoNLLUReader(file)
@@ -34,7 +34,6 @@ with open(file_test, 'r') as file:
             if i < len(sent) - 1:
                 dict_t_t[f"{l[i]},{l[i + 1]}"] += 1
 
-# Calcul des probabilités lissées
 Vw = len(dict_w_t.keys())
 Vt = len(dict_t.keys())
 E = {}
@@ -57,7 +56,7 @@ p = {}
 for key in dict_s_t.keys():
     p[key] = math.log(S + Vt * alpha) - math.log(dict_s_t[key] + alpha)
 
-# Sauvegarde des paramètres
+
 with open('matriceE.bin', 'wb') as f:
     pickle.dump(E, f)
 with open('matriceT.bin', 'wb') as f:

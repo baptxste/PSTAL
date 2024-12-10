@@ -13,7 +13,6 @@ import itertools
 path = os.path.dirname(__file__)
 sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
 
-# Chargement des matrices
 with open('matriceE.bin', 'rb') as file:
     E = pickle.load(file)
 with open('matriceT.bin', 'rb') as file:
@@ -21,7 +20,7 @@ with open('matriceT.bin', 'rb') as file:
 with open('matriceP.bin', 'rb') as file:
     P = pickle.load(file)
 
-# Liste des étiquettes
+# liste des étiquettes
 t = list(set(itertools.chain(*[key.split(',') for key in T.keys() if ',' in key])))
 
 def viterbi(seq, P, E, T, t):
