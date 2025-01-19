@@ -9,6 +9,7 @@ from transformers import AutoModel, AutoTokenizer
 import numpy as np
 from matplotlib import pyplot as plt
 import json
+import time
 
 path = os.path.dirname(__file__)
 sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
@@ -21,7 +22,7 @@ file_train = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemco
 file_test = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.dev')
 
 
-
+t0 = time.time()
 def dataloader(file=file_test):
     """
     Dataloader : charge un fichier CoNLLU, calcule des embeddings pour les mots
@@ -82,9 +83,6 @@ class MLP(nn.Module):
         x = F.relu(x)
         x = self.fc3(x)
         return x
-
-
-
 
 
 def train_with_metrics(model_nn, trainloader, validateloader, loss_fn, n_epochs, optimizer):
@@ -182,17 +180,6 @@ loss = nn.CrossEntropyLoss()
 
 
 print("Entraînement")
-# losses = train(model, trainloader, evalloader, loss, 20, optimizer)
-# torch.save(model, "mlp.pth")
-# mapping = dict(mapping)
-# with open("map.json","w") as file : 
-#     json.dump(mapping, file, indent=4)
-# plt.plot(losses)
-# plt.title("Courbe des pertes de validation")
-# plt.xlabel("Époques")
-# plt.ylabel("Perte")
-# plt.show()
-
 
 losses, accuracies = train_with_metrics(model, trainloader, evalloader, loss, 20, optimizer)
 torch.save(model, "mlp.pth")
@@ -200,7 +187,6 @@ mapping = dict(mapping)
 with open("mapping.json", "w") as file: 
     json.dump(mapping, file, indent=4)
 
-# Tracer la courbe des pertes
 plt.plot(losses, label="Perte validation")
 plt.title("Courbe des pertes de validation")
 plt.xlabel("Époques")
@@ -208,7 +194,6 @@ plt.ylabel("Perte")
 plt.legend()
 plt.show()
 
-# Tracer la courbe des accuracies
 plt.plot(accuracies, label="Accuracy validation")
 plt.title("Courbe des accuracies de validation")
 plt.xlabel("Époques")
