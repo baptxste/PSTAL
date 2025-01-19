@@ -1,0 +1,1 @@
+pour l'extension du TP4 faire les plus proches voisins et comparer dans quelle mesure la quantité de données apportée lors de l'entrainement améliore les performances. ( potentiellement faire le fintuning avec une comparasion similaire si je me chauffe )
