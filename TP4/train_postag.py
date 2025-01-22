@@ -15,14 +15,17 @@ path = os.path.dirname(__file__)
 sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
 from conllulib import Util, CoNLLUReader
 
-tokenizer = AutoTokenizer.from_pretrained('almanach/camembert-base')
-model = AutoModel.from_pretrained('almanach/camembert-base')
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased') # ('almanach/camembert-base')
+model = AutoModel.from_pretrained('bert-base-uncased') # ('almanach/camembert-base')
+
+# tokenizer = AutoTokenizer.from_pretrained('almanach/camembert-base')
+# model = AutoModel.from_pretrained('almanach/camembert-base')
 
 file_train = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.train')
 file_test = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.dev')
 
 
-t0 = time.time()
+
 def dataloader(file=file_test):
     """
     Dataloader : charge un fichier CoNLLU, calcule des embeddings pour les mots
@@ -63,7 +66,7 @@ def dataloader(file=file_test):
 
             # associer les embeddings moyens aux labels
             for i in label_idx:
-                if labels[i] in mapping: 
+                if mapping[labels[i]] != 0: # avoid  
                     data.append((word_embeddings[i], mapping[labels[i]]))
 
     return data, mapping
@@ -85,9 +88,11 @@ class MLP(nn.Module):
         return x
 
 
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
+
 def train_with_metrics(model_nn, trainloader, validateloader, loss_fn, n_epochs, optimizer):
     """
-    Fonction d'entraînement du modèle avec calcul d'accuracy.
+    Fonction d'entraînement du modèle avec calcul d'accuracy, précision, rappel et F1-score.
     :param model_nn: modèle de type nn.Module
     :param trainloader: DataLoader pour l'entraînement
     :param validateloader: DataLoader pour la validation
@@ -99,6 +104,9 @@ def train_with_metrics(model_nn, trainloader, validateloader, loss_fn, n_epochs,
     model_nn = model_nn.to(device)
     losses = []
     accuracies = []
+    precisions = []
+    recalls = []
+    f1_scores = []
 
     for epoch in range(n_epochs):
         # Phase d'entraînement
@@ -132,6 +140,9 @@ def train_with_metrics(model_nn, trainloader, validateloader, loss_fn, n_epochs,
         correct_val = 0
         total_val = 0
 
+        all_targets = []
+        all_preds = []
+
         with torch.no_grad():
             for inputs, targets in validateloader:
                 inputs, targets = inputs.to(device), targets.to(device)
@@ -145,22 +156,37 @@ def train_with_metrics(model_nn, trainloader, validateloader, loss_fn, n_epochs,
                 correct_val += (preds == targets).sum().item()
                 total_val += targets.size(0)
 
+                # Stocker les cibles et les prédictions pour les métriques globales
+                all_targets.extend(targets.cpu().numpy())
+                all_preds.extend(preds.cpu().numpy())
+
         val_accuracy = correct_val / total_val
+
+        # Calcul des métriques
+        precision = precision_score(all_targets, all_preds, average='macro', zero_division=0)
+        recall = recall_score(all_targets, all_preds, average='macro', zero_division=0)
+        f1 = f1_score(all_targets, all_preds, average='macro', zero_division=0)
 
         # Moyennes pour l'époque
         train_loss /= len(trainloader)
         val_loss /= len(validateloader)
         losses.append(val_loss)
         accuracies.append(val_accuracy)
+        precisions.append(precision)
+        recalls.append(recall)
+        f1_scores.append(f1)
 
-        print(f"Époque {epoch + 1}/{n_epochs} : "
+        print(f"\u00c9poque {epoch + 1}/{n_epochs} : "
               f"Perte entraînement = {train_loss:.4f}, "
               f"Accuracy entraînement = {train_accuracy:.4f}, "
               f"Perte validation = {val_loss:.4f}, "
-              f"Accuracy validation = {val_accuracy:.4f}")
+              f"Accuracy validation = {val_accuracy:.4f}, "
+              f"Précision = {precision:.4f}, "
+              f"Rappel = {recall:.4f}, "
+              f"F1-Score = {f1:.4f}")
 
     print("Entraînement terminé.")
-    return losses, accuracies
+    return losses, accuracies, precisions, recalls, f1_scores
 
 
 data_train, mapping = dataloader(file_test)
@@ -168,36 +194,44 @@ data_train, mapping = dataloader(file_test)
     # print(e[1])
 data_eval, _ = dataloader(file_test)
 
-trainloader = DataLoader(data_train, batch_size=10, shuffle=True)
+trainloader = DataLoader(data_train, batch_size=20, shuffle=True)
 evalloader = DataLoader(data_eval, batch_size=10, shuffle=True)
 
 print(f"Classes générées : {mapping}")
 print(f"Nombre de classes : {len(mapping)}")
 
-model = MLP(768, 200, 200, len(mapping))
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+mlp = MLP(768, 200, 200, len(mapping))
+optimizer = torch.optim.SGD(mlp.parameters(), lr=0.01)
 loss = nn.CrossEntropyLoss()
 
 
 print("Entraînement")
 
-losses, accuracies = train_with_metrics(model, trainloader, evalloader, loss, 20, optimizer)
-torch.save(model, "mlp.pth")
-mapping = dict(mapping)
-with open("mapping.json", "w") as file: 
-    json.dump(mapping, file, indent=4)
 
+
+losses, accuracies, precisions, recalls, f1_scores = train_with_metrics(
+    mlp, trainloader, evalloader, loss, 250, optimizer
+)
+# torch.save(mlp, "mlp.pth")
+# mapping = dict(mapping)
+# with open("mapping.json", "w") as file: 
+#     json.dump(mapping, file, indent=4)
+
+
+# Visualisation des métriques
 plt.plot(losses, label="Perte validation")
 plt.title("Courbe des pertes de validation")
-plt.xlabel("Époques")
+plt.xlabel("epoques")
 plt.ylabel("Perte")
 plt.legend()
 plt.show()
 
 plt.plot(accuracies, label="Accuracy validation")
-plt.title("Courbe des accuracies de validation")
-plt.xlabel("Époques")
-plt.ylabel("Accuracy")
+plt.plot(precisions, label="Précision")
+plt.plot(recalls, label="Rappel")
+plt.plot(f1_scores, label="F1-Score")
+plt.title("Courbes des métriques de validation")
+plt.xlabel("epoques")
+plt.ylabel("Score")
 plt.legend()
 plt.show()
-

@@ -1,0 +1,61 @@
+2025-01-20 18:57:31.929395: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-01-20 18:57:31.938186: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1737395851.949637   10393 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1737395851.953040   10393 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-20 18:57:31.964617: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Classes générées : {'*': 0, 'Institution': 1, 'Artifact': 2, 'Act': 3, 'Person': 4, 'Cognition': 5, 'Time': 6, 'Object': 7, 'Phenomenon': 8, 'Feeling': 9, 'Quantity': 10, 'Event': 11, 'Part': 12, 'Relation': 13, 'State': 14, 'Substance': 15, 'Possession': 16, 'Attribute': 17, 'Communication': 18, 'Plant': 19, 'Food': 20, 'Group': 21, 'Body': 22, 'Animal': 23, 'Tops': 24}
+Nombre de classes : 25
+Entraînement
+Époque 1/50 : Perte entraînement = 0.9099, Accuracy entraînement = 0.7880, Perte validation = 0.7790, Accuracy validation = 0.7935, Précision = 0.0419, Rappel = 0.0450, F1-Score = 0.0423
+Époque 2/50 : Perte entraînement = 0.7474, Accuracy entraînement = 0.7957, Perte validation = 0.7067, Accuracy validation = 0.8021, Précision = 0.1584, Rappel = 0.0633, F1-Score = 0.0679
+Époque 3/50 : Perte entraînement = 0.6927, Accuracy entraînement = 0.8107, Perte validation = 0.6488, Accuracy validation = 0.8164, Précision = 0.1680, Rappel = 0.0986, F1-Score = 0.1068
+Époque 4/50 : Perte entraînement = 0.6328, Accuracy entraînement = 0.8270, Perte validation = 0.5893, Accuracy validation = 0.8367, Précision = 0.1870, Rappel = 0.1460, F1-Score = 0.1494
+Époque 5/50 : Perte entraînement = 0.5731, Accuracy entraînement = 0.8415, Perte validation = 0.5720, Accuracy validation = 0.8401, Précision = 0.2100, Rappel = 0.1918, F1-Score = 0.1788
+Époque 6/50 : Perte entraînement = 0.5250, Accuracy entraînement = 0.8535, Perte validation = 0.4980, Accuracy validation = 0.8556, Précision = 0.2295, Rappel = 0.1672, F1-Score = 0.1888
+Époque 7/50 : Perte entraînement = 0.4864, Accuracy entraînement = 0.8623, Perte validation = 0.4509, Accuracy validation = 0.8714, Précision = 0.2417, Rappel = 0.2096, F1-Score = 0.2119
+Époque 8/50 : Perte entraînement = 0.4583, Accuracy entraînement = 0.8709, Perte validation = 0.4354, Accuracy validation = 0.8749, Précision = 0.2646, Rappel = 0.2141, F1-Score = 0.2266
+Époque 9/50 : Perte entraînement = 0.4343, Accuracy entraînement = 0.8776, Perte validation = 0.4478, Accuracy validation = 0.8814, Précision = 0.2893, Rappel = 0.2603, F1-Score = 0.2355
+Époque 10/50 : Perte entraînement = 0.4079, Accuracy entraînement = 0.8838, Perte validation = 0.3729, Accuracy validation = 0.8918, Précision = 0.3282, Rappel = 0.2411, F1-Score = 0.2418
+Époque 11/50 : Perte entraînement = 0.3885, Accuracy entraînement = 0.8896, Perte validation = 0.3691, Accuracy validation = 0.8900, Précision = 0.4389, Rappel = 0.2373, F1-Score = 0.2661
+Époque 12/50 : Perte entraînement = 0.3686, Accuracy entraînement = 0.8946, Perte validation = 0.3454, Accuracy validation = 0.9068, Précision = 0.4050, Rappel = 0.2961, F1-Score = 0.2931
+Époque 13/50 : Perte entraînement = 0.3434, Accuracy entraînement = 0.9030, Perte validation = 0.3468, Accuracy validation = 0.8960, Précision = 0.4588, Rappel = 0.2594, F1-Score = 0.3003
+Époque 14/50 : Perte entraînement = 0.3232, Accuracy entraînement = 0.9087, Perte validation = 0.2937, Accuracy validation = 0.9209, Précision = 0.4234, Rappel = 0.3213, F1-Score = 0.3426
+Époque 15/50 : Perte entraînement = 0.3047, Accuracy entraînement = 0.9133, Perte validation = 0.3256, Accuracy validation = 0.9055, Précision = 0.4694, Rappel = 0.3262, F1-Score = 0.3368
+Époque 16/50 : Perte entraînement = 0.2867, Accuracy entraînement = 0.9195, Perte validation = 0.2725, Accuracy validation = 0.9224, Précision = 0.5026, Rappel = 0.3339, F1-Score = 0.3676
+Époque 17/50 : Perte entraînement = 0.2697, Accuracy entraînement = 0.9252, Perte validation = 0.2341, Accuracy validation = 0.9366, Précision = 0.4598, Rappel = 0.3666, F1-Score = 0.3893
+Époque 18/50 : Perte entraînement = 0.2546, Accuracy entraînement = 0.9319, Perte validation = 0.2261, Accuracy validation = 0.9401, Précision = 0.4834, Rappel = 0.3875, F1-Score = 0.4167
+Époque 19/50 : Perte entraînement = 0.2332, Accuracy entraînement = 0.9382, Perte validation = 0.1983, Accuracy validation = 0.9494, Précision = 0.5008, Rappel = 0.4039, F1-Score = 0.4289
+Époque 20/50 : Perte entraînement = 0.2188, Accuracy entraînement = 0.9423, Perte validation = 0.2048, Accuracy validation = 0.9415, Précision = 0.4995, Rappel = 0.4134, F1-Score = 0.4427
+Époque 21/50 : Perte entraînement = 0.2038, Accuracy entraînement = 0.9459, Perte validation = 0.1919, Accuracy validation = 0.9562, Précision = 0.4800, Rappel = 0.4754, F1-Score = 0.4705
+Époque 22/50 : Perte entraînement = 0.1880, Accuracy entraînement = 0.9505, Perte validation = 0.1643, Accuracy validation = 0.9572, Précision = 0.5011, Rappel = 0.4623, F1-Score = 0.4772
+Époque 23/50 : Perte entraînement = 0.1758, Accuracy entraînement = 0.9534, Perte validation = 0.2109, Accuracy validation = 0.9359, Précision = 0.5014, Rappel = 0.4313, F1-Score = 0.4468
+Époque 24/50 : Perte entraînement = 0.1640, Accuracy entraînement = 0.9571, Perte validation = 0.1373, Accuracy validation = 0.9662, Précision = 0.6020, Rappel = 0.4887, F1-Score = 0.5072
+Époque 25/50 : Perte entraînement = 0.1488, Accuracy entraînement = 0.9620, Perte validation = 0.1323, Accuracy validation = 0.9651, Précision = 0.5776, Rappel = 0.4779, F1-Score = 0.5044
+Époque 26/50 : Perte entraînement = 0.1389, Accuracy entraînement = 0.9641, Perte validation = 0.1205, Accuracy validation = 0.9705, Précision = 0.6069, Rappel = 0.5113, F1-Score = 0.5310
+Époque 27/50 : Perte entraînement = 0.1272, Accuracy entraînement = 0.9692, Perte validation = 0.1056, Accuracy validation = 0.9762, Précision = 0.6199, Rappel = 0.5267, F1-Score = 0.5463
+Époque 28/50 : Perte entraînement = 0.1158, Accuracy entraînement = 0.9722, Perte validation = 0.1005, Accuracy validation = 0.9765, Précision = 0.6187, Rappel = 0.5349, F1-Score = 0.5488
+Époque 29/50 : Perte entraînement = 0.1071, Accuracy entraînement = 0.9749, Perte validation = 0.0862, Accuracy validation = 0.9812, Précision = 0.6256, Rappel = 0.5540, F1-Score = 0.5692
+Époque 30/50 : Perte entraînement = 0.0960, Accuracy entraînement = 0.9773, Perte validation = 0.0844, Accuracy validation = 0.9808, Précision = 0.6346, Rappel = 0.5515, F1-Score = 0.5709
+Époque 31/50 : Perte entraînement = 0.0900, Accuracy entraînement = 0.9799, Perte validation = 0.0765, Accuracy validation = 0.9850, Précision = 0.6300, Rappel = 0.5814, F1-Score = 0.5911
+Époque 32/50 : Perte entraînement = 0.0808, Accuracy entraînement = 0.9819, Perte validation = 0.0714, Accuracy validation = 0.9837, Précision = 0.6283, Rappel = 0.5663, F1-Score = 0.5804
+Époque 33/50 : Perte entraînement = 0.0748, Accuracy entraînement = 0.9838, Perte validation = 0.0643, Accuracy validation = 0.9876, Précision = 0.6403, Rappel = 0.5925, F1-Score = 0.6022
+Époque 34/50 : Perte entraînement = 0.0690, Accuracy entraînement = 0.9848, Perte validation = 0.0645, Accuracy validation = 0.9854, Précision = 0.7260, Rappel = 0.5958, F1-Score = 0.6210
+Époque 35/50 : Perte entraînement = 0.0624, Accuracy entraînement = 0.9876, Perte validation = 0.0647, Accuracy validation = 0.9850, Précision = 0.7261, Rappel = 0.5937, F1-Score = 0.6205
+Époque 36/50 : Perte entraînement = 0.0579, Accuracy entraînement = 0.9882, Perte validation = 0.0524, Accuracy validation = 0.9910, Précision = 0.7213, Rappel = 0.6443, F1-Score = 0.6610
+Époque 37/50 : Perte entraînement = 0.0526, Accuracy entraînement = 0.9906, Perte validation = 0.0476, Accuracy validation = 0.9919, Précision = 0.7703, Rappel = 0.6516, F1-Score = 0.6742
+Époque 38/50 : Perte entraînement = 0.0476, Accuracy entraînement = 0.9912, Perte validation = 0.0445, Accuracy validation = 0.9923, Précision = 0.7670, Rappel = 0.6475, F1-Score = 0.6639
+Époque 39/50 : Perte entraînement = 0.0439, Accuracy entraînement = 0.9920, Perte validation = 0.0406, Accuracy validation = 0.9934, Précision = 0.7641, Rappel = 0.6800, F1-Score = 0.7034
+Époque 40/50 : Perte entraînement = 0.0405, Accuracy entraînement = 0.9926, Perte validation = 0.0464, Accuracy validation = 0.9895, Précision = 0.7466, Rappel = 0.6616, F1-Score = 0.6845
+Époque 41/50 : Perte entraînement = 0.0366, Accuracy entraînement = 0.9947, Perte validation = 0.0325, Accuracy validation = 0.9954, Précision = 0.7624, Rappel = 0.7189, F1-Score = 0.7289
+Époque 42/50 : Perte entraînement = 0.0339, Accuracy entraînement = 0.9948, Perte validation = 0.0301, Accuracy validation = 0.9959, Précision = 0.7588, Rappel = 0.7249, F1-Score = 0.7365
+Époque 43/50 : Perte entraînement = 0.0315, Accuracy entraînement = 0.9953, Perte validation = 0.0285, Accuracy validation = 0.9963, Précision = 0.7741, Rappel = 0.7279, F1-Score = 0.7425
+Époque 44/50 : Perte entraînement = 0.0291, Accuracy entraînement = 0.9958, Perte validation = 0.0303, Accuracy validation = 0.9956, Précision = 0.7764, Rappel = 0.7296, F1-Score = 0.7424
+Époque 45/50 : Perte entraînement = 0.0267, Accuracy entraînement = 0.9961, Perte validation = 0.0250, Accuracy validation = 0.9971, Précision = 0.7667, Rappel = 0.7564, F1-Score = 0.7598
+Époque 46/50 : Perte entraînement = 0.0248, Accuracy entraînement = 0.9972, Perte validation = 0.0216, Accuracy validation = 0.9975, Précision = 0.7719, Rappel = 0.7609, F1-Score = 0.7637
+Époque 47/50 : Perte entraînement = 0.0231, Accuracy entraînement = 0.9975, Perte validation = 0.0207, Accuracy validation = 0.9980, Précision = 0.7793, Rappel = 0.7717, F1-Score = 0.7743
+Époque 48/50 : Perte entraînement = 0.0215, Accuracy entraînement = 0.9978, Perte validation = 0.0203, Accuracy validation = 0.9978, Précision = 0.8174, Rappel = 0.7838, F1-Score = 0.7923
+Époque 49/50 : Perte entraînement = 0.0201, Accuracy entraînement = 0.9978, Perte validation = 0.0179, Accuracy validation = 0.9982, Précision = 0.8195, Rappel = 0.7880, F1-Score = 0.7963
+Époque 50/50 : Perte entraînement = 0.0187, Accuracy entraînement = 0.9982, Perte validation = 0.0165, Accuracy validation = 0.9987, Précision = 0.8600, Rappel = 0.8112, F1-Score = 0.8205
+Entraînement terminé.

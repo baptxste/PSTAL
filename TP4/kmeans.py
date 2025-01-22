@@ -11,8 +11,11 @@ path = os.path.dirname(__file__)
 sys.path.append(os.path.join(path, '../pstal-etu/lib/'))
 from conllulib import CoNLLUReader
 
-tokenizer = AutoTokenizer.from_pretrained('almanach/camembert-base')
-model = AutoModel.from_pretrained('almanach/camembert-base')
+# tokenizer = AutoTokenizer.from_pretrained('almanach/camembert-base')
+# model = AutoModel.from_pretrained('almanach/camembert-base')
+
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased') # ('almanach/camembert-base')
+model = AutoModel.from_pretrained('bert-base-uncased')
 
 def dataloader_with_embeddings(file):
     """
@@ -55,8 +58,8 @@ def dataloader_with_embeddings(file):
 file_train = os.path.join(path, '../pstal-etu/sequoia/sequoia-ud.parseme.frsemcor.simple.train')
 data_train, mapping = dataloader_with_embeddings(file_train)
 
-with open("embeddings.json", "w") as file:
+with open("embeddings_goo.json", "w") as file:
     json.dump(data_train, file, indent=4)
 
-with open("mapping.json", "w") as file:
+with open("mapping_goo.json", "w") as file:
     json.dump(mapping, file, indent=4)
