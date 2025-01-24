@@ -1,0 +1,12 @@
+\begin{thebibliography}{1}
+
+\bibitem{devlin2019bertpretrainingdeepbidirectional}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\newblock Bert: Pre-training of deep bidirectional transformers for language understanding, 2019.
+
+\bibitem{DBLP:journals/corr/abs-1911-03894}
+Louis Martin, Benjamin Muller, Pedro Javier~Ortiz Su{\'{a}}rez, Yoann Dupont, Laurent Romary, {\'{E}}ric~Villemonte de~la Clergerie, Djam{\'{e}} Seddah, and Beno{\^{\i}}t Sagot.
+\newblock Camembert: a tasty french language model.
+\newblock {\em CoRR}, abs/1911.03894, 2019.
+
+\end{thebibliography}
