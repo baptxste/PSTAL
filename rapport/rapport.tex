@@ -60,14 +60,14 @@ nous utiliserons une architecture BERT et plus précisément les modèles camemb
 
 \section{Perceptron Multi Couches}
 Dans un premier temps nous allons utiliser un perceptron multi-couches afin de classifier nos embeddings. L'architecture du modèle est choisie
-de manière arbitraire et se compose d'une couche d'entrée de la dimension des embeddinds du transformers (ici 768), suivis de deux couches 
+de manière arbitraire et se compose d'une couche d'entrée de la dimension des embeddinds du transformers (ici 768), suivie de deux couches 
 de dimension 200 puis une sortie vers une couche de dimension 25 ce qui correspond à notre nombre de super sense + 1 pour les mots sans classe ( annotés par "*"). 
 Les différentes couches sont séparées par des Relu.
 
 Nous observons que le tokenizer associé au modèle Bert nous donne parfois plusieurs tokens pour un mot ce qui est problématique car 
 dans notre cas nous souhaitons avoir un seul et unique embedding par mot afin de pouvoir prédire son étiquette. Pour palier à cela nous
 définissons un dataloader qui à partir des phrases du jeu de données, calcule les embeddings pour chaque token et retourne des embeddings sur les mots en effectuant la 
-moyenne des embeddings des token qui constitue le mot.
+moyenne des embeddings des token qui constituent le mot.
 \subsection{Camembert VS Google-bert}
 
 Les déclinaisons de l'architecture BERT sont nombreuses et leurs performances pas toujours égales ce qui peut avoir une influence non négligeable sur 
@@ -92,18 +92,18 @@ Camembert~\cite{DBLP:journals/corr/abs-1911-03894} et Google-bert~\cite{devlin20
 
 Nous constatons que la courbe d'évaluation  du mlp sur les embeddings de google bert bien qu'augmentant plus rapidement, est
 beaucoup moins régulière que la courbe d'apprentissage du mlp sur les embeddings Camembert. Cela provient probablement du fait 
-que le modèle base de Google est un modèle entraîné pour du multi-lingue ce qui n'est pas le cas du modèle Camembert spéfiquement 
+que le modèle base de Google est un modèle entraîné pour du multi-lingue ce qui n'est pas le cas du modèle Camembert spécifiquement 
 entraîné sur des données françaises. C'est différences de performances lors de l'apprentissage suggèrent que le modèle français génère 
-des embeddings plus réguliers et traduisant mieux le context, que le modèle de google qui lui nécessite un mlp ajusté plus finement afin 
+des embeddings plus réguliers et traduisant mieux le contexte, que le modèle de google qui lui nécessite un mlp ajusté plus finement afin 
 de lisser ces imprécisions sur les embeddings.
 
 
 \section{K plus proches voisins}
 
-Dans cette partie nous nous penchons sur une approximation de notre modèle précédent, en effet les modèles Bert sont connu 
+Dans cette partie nous nous penchons sur une approximation de notre modèle précédent, en effet les modèles Bert sont connus 
 pour la pertinence des embeddings qu'ils produisent dans un context donné. Comme ces embeddings agglomèrent l'information sur 
 le mot et son context il se pourrait qu'ils suffisent à eux seuls à classifier nos mots. Pour cela nous utilisons l'algorithme
-des k plus proches voisins qui vise à attribuer la classe majoritaire parmis les voisins du mots que l'on cherche à classifier. Une des premières étapes a été de trouver le nombre 
+des k plus proches voisins qui vise à attribuer la classe majoritaire parmi les voisins du mots que l'on cherche à classifier. Une des premières étapes a été de trouver le nombre 
 
 \subsection{Répartition des données et impact}
 \begin{figure}[H]
@@ -196,9 +196,9 @@ d'un k-nn est plus régulier sur le mlp sur les embeddings générés par google
 \section{Conclusion}
 
 Toutes ces expériences mettent divers points intéressant en lumière : 
-- le mlp se montrent bien plus performant que le k-nn si on l'entraîne avec de bons hyper-paramètres
+- le mlp se montre bien plus performant que le k-nn si on l'entraîne avec de bons hyper-paramètres
 et que nous avons une quantité de données suffisante et si possible présentant une répartition des classes équilibrée.
-- le k-nn performe de manière acceptable lorsque l'on a très peu de données et semble moins sensible à la répartition des classes
+- le k-nn obtient de manière acceptable lorsque l'on a très peu de données et semble moins sensible à la répartition des classes
 Ainsi nous avons montré que dans la tâche de prédiction de super-senses les deux approches sont possibles et fournissent des résultats aux 
 avantages variés. Nous pourrons aussi remarquer que le k-nn à l'avantage d'être un algorithme plus facile à interpréter qu'un mlp néanmoins 
 il se montre moins rapide lors de l'inférence lorsque la quantité de vecteurs est importante. 
